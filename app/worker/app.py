@@ -1,6 +1,7 @@
 from celery import Celery
 from celery.schedules import crontab
 from .config import WorkerSettings
+
 settings = WorkerSettings()
 app = Celery("tasks", backend=settings.celery_result_backend, broker=settings.celery_broker_url)
 
