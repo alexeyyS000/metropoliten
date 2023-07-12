@@ -1,10 +1,6 @@
 name: "Run Python linters and tests"
 on:
   pull_request:
-    paths:
-      - '**/*.py'
-      - 'poetry.lock'
-      - 'pyproject.toml'
     branches:
       - master
       - dev
