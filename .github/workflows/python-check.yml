@@ -29,11 +29,11 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-root
       - name: Run flake8
-        run: poetry run flake app
+        run: poetry run flake .
       - name: Run mypy
-        run: poetry run mypy app
+        run: poetry run mypy .
       - name: Run black lint
-        run: poetry run black --check app
+        run: poetry run black --check .
 # TODO: раскомментировать когда дойдем до написания тестов
 #  test:
 #    name: "Run Python tests"
