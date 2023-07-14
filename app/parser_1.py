@@ -25,5 +25,5 @@ def parse_latest_posts():
         except AttributeError:
             pass
 
-    data.reverse()
+    data.reverse()#c
     return data
