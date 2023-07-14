@@ -2,7 +2,7 @@ from celery import Celery
 from celery.schedules import crontab
 from .config import WorkerSettings
 from parser_1 import parse_latest_posts
-from SqlAlchemyRepository import Get_or_create
+from db.models import Get_or_create
 from sqlalchemy.orm import sessionmaker  # не знаю как-подругому передать sessionmaker
 from sqlalchemy import create_engine
 

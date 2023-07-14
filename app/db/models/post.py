@@ -9,5 +9,5 @@ class Post(Base):
     id = mapped_column(Integer, primary_key=True)
     name = mapped_column(String, nullable=False)
     image_url = mapped_column(String, nullable=True)
-    created = mapped_column(DateTime, default=datetime.utcnow)  # почему тут передается ссылка?
+    created = mapped_column(DateTime, default=datetime.utcnow)
     updated = mapped_column(DateTime, onupdate=datetime.utcnow)
