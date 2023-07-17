@@ -1,12 +1,10 @@
 from celery import Celery
 from celery.schedules import crontab
-from .config import WorkerSettings
+from .worker_config import WorkerSettings
 from parser_1 import parse_latest_posts
-from db.models import Get_or_create
-from sqlalchemy.orm import sessionmaker  # не знаю как-подругому передать sessionmaker
-from sqlalchemy import create_engine
+from db.dal.post_sql_repo import PostDAl
 
-session_maker = sessionmaker(bind=create_engine("postgresql+psycopg://username:password@localhost:5432/database"))
+from db.client import session_maker
 
 settings = WorkerSettings()
 app = Celery("tasks", backend=settings.celery_result_backend, broker=settings.celery_broker_url)
@@ -22,4 +20,4 @@ app.conf.timezone = "Europe/Moscow"
 
 @app.task(name="app.add")
 def add():
-    Get_or_create(session_maker).get_or_create(parse_latest_posts())
+    PostDAl(session_maker).get_or_create(parse_latest_posts())

@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+from datetime import datetime, timedelta
 
 
 def parse_latest_posts():
@@ -21,9 +22,21 @@ def parse_latest_posts():
 
             if image_url is not None:
                 image_url = "https://mosday.ru/news/" + image_url.get("src")
-            data.append({"tag": tag, "headline": headline, "url": image_url})
+
+            str_datetime = i.find(face="Arial", size="2", color="#666666", style="font-size:13px").text[0:16]
+
+            try:
+                datetime_object = datetime.strptime(str_datetime, "%d.%m.%Y %H:%M")
+                datetime_object = datetime_object - timedelta(hours=3)
+            except ValueError:
+                str_datetime_err = (
+                    i.find(face="Arial", size="2", color="#666666", style="font-size:13px").find("b").text
+                )
+                datetime_object = datetime.strptime(str_datetime_err, "%d.%m.%Y")
+                datetime_object = datetime_object - timedelta(hours=3)
+
+            data.append({"id": tag, "name": headline, "image_url": image_url, "publication_date": datetime_object})
         except AttributeError:
             pass
 
-    data.reverse()
     return data
