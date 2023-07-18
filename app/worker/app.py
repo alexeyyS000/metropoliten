@@ -20,4 +20,8 @@ app.conf.timezone = "Europe/Moscow"
 
 @app.task(name="app.add")
 def add():
-    PostDAL(session_maker).get_or_create(parse_latest_posts())
+    post_repo = PostDAL(session_maker)
+    latest_posts = parse_latest_posts()
+    latest_posts.reverse()
+    for post in latest_posts:
+        post_repo.get_or_create(**post)

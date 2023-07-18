@@ -20,12 +20,10 @@ class SqlAlchemyRepository:
             session.add(self.Config.model(**kwargs))
             session.commit()
 
-    def get_or_create(self, dictions_in_list):
-        dictions_in_list.reverse()
-        for i in dictions_in_list:
-            instance = self.get_one_or_none(**i)
-            try:
-                instance.scalar_one_or_none()  # почему в случае существования элемента в таюлице методы scalar_one_or_none() и fetchone() кидают ошибки,а в случае None возращают None и ошибки нет
-                self.create_one(**i)
-            except InvalidRequestError:
-                pass
+    def get_or_create(self, **kwargs):
+        instance=self.get_one_or_none(**kwargs)
+        try:
+            instance.scalar_one_or_none()
+            self.create_one(**kwargs)
+        except InvalidRequestError:
+            return instance
