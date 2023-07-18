@@ -16,7 +16,7 @@ class SqlAlchemyRepository:
 
     def create_one(self, **kwargs):
         with self.session_factory() as session:
-            instance=self.Config.model(**kwargs)
+            instance = self.Config.model(**kwargs)
             session.add(instance)
             session.commit()
             return instance

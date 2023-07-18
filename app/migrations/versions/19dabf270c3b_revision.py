@@ -1,7 +1,7 @@
 """revision
 
 Revision ID: 19dabf270c3b
-Revises: 
+Revises: add table post
 Create Date: 2023-07-18 19:22:47.862414
 
 """

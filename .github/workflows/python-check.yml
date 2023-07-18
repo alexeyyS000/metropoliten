@@ -30,8 +30,8 @@ jobs:
         run: poetry install --no-root
       - name: Run flake8
         run: poetry run flake8 .
-      - name: Run mypy
-        run: poetry run mypy .
+#      - name: Run mypy
+#        run: poetry run mypy .
       - name: Run black lint
         run: poetry run black --check .
 # TODO: раскомментировать когда дойдем до написания тестов

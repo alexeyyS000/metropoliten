@@ -1,4 +1,4 @@
-from utils.sqlalchemy import SqlAlchemyRepository
+from utils.sql.dal import SqlAlchemyRepository
 from db.models import Post
 
 
