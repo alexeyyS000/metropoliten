@@ -2,7 +2,7 @@ from celery import Celery
 from celery.schedules import crontab
 from .worker_config import WorkerSettings
 from parser_1 import parse_latest_posts
-from db.dal.post_sql_repo import PostDAl
+from db.dal.post_sql_repo import PostDAL
 
 from db.client import session_maker
 
@@ -20,4 +20,4 @@ app.conf.timezone = "Europe/Moscow"
 
 @app.task(name="app.add")
 def add():
-    PostDAl(session_maker).get_or_create(parse_latest_posts())
+    PostDAL(session_maker).get_or_create(parse_latest_posts())
