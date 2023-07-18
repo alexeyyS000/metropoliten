@@ -1,7 +1,10 @@
 from celery import Celery
 from celery.schedules import crontab
-from .config import WorkerSettings
-from parser_1 import parser
+from .worker_config import WorkerSettings
+from parser_1 import parse_latest_posts
+from db.dal.post import PostDAL
+
+from db.client import session_maker
 
 settings = WorkerSettings()
 app = Celery("tasks", backend=settings.celery_result_backend, broker=settings.celery_broker_url)
@@ -17,5 +20,8 @@ app.conf.timezone = "Europe/Moscow"
 
 @app.task(name="app.add")
 def add():
-    # print("test")
-    parser()
+    post_repo = PostDAL(session_maker)
+    latest_posts = parse_latest_posts()
+    latest_posts.reverse()
+    for post in latest_posts:
+        post_repo.get_or_create(post, id=post["id"])

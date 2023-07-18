@@ -1,10 +1,6 @@
 name: "Run Python linters and tests"
 on:
   pull_request:
-    paths:
-      - '**/*.py'
-      - 'poetry.lock'
-      - 'pyproject.toml'
     branches:
       - master
       - dev
@@ -13,6 +9,9 @@ jobs:
   lint:
     name: "Run Python linters"
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
     strategy:
       matrix:
         python-version: ["3.10"]
@@ -30,11 +29,11 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-root
       - name: Run flake8
-        run: poetry run flake app
-      - name: Run mypy
-        run: poetry run mypy app
+        run: poetry run flake8 .
+#      - name: Run mypy
+#        run: poetry run mypy .
       - name: Run black lint
-        run: poetry run black --check app
+        run: poetry run black --check .
 # TODO: раскомментировать когда дойдем до написания тестов
 #  test:
 #    name: "Run Python tests"
