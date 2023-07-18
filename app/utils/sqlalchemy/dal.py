@@ -13,7 +13,7 @@ class SqlAlchemyRepository:
         with self.session_factory() as session:
             stmt = select(self.Config.model).filter_by(**kwargs)
             result = session.execute(stmt)
-            return result
+            return result.scalar_one_or_none()
 
     def create_one(self, **kwargs):
         with self.session_factory() as session:
@@ -22,8 +22,7 @@ class SqlAlchemyRepository:
 
     def get_or_create(self, **kwargs):
         instance=self.get_one_or_none(**kwargs)
-        try:
-            instance.scalar_one_or_none()
+        if instance is None:
             self.create_one(**kwargs)
-        except InvalidRequestError:
+        else:
             return instance
