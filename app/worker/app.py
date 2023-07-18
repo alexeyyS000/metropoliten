@@ -2,7 +2,7 @@ from celery import Celery
 from celery.schedules import crontab
 from .worker_config import WorkerSettings
 from parser_1 import parse_latest_posts
-from db.dal.post_sql_repo import PostDAL
+from db.dal.post import PostDAL
 
 from db.client import session_maker
 
@@ -24,4 +24,4 @@ def add():
     latest_posts = parse_latest_posts()
     latest_posts.reverse()
     for post in latest_posts:
-        post_repo.get_or_create(**post)
+        post_repo.get_or_create(post, id=post["id"])

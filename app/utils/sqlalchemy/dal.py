@@ -16,12 +16,14 @@ class SqlAlchemyRepository:
 
     def create_one(self, **kwargs):
         with self.session_factory() as session:
-            session.add(self.Config.model(**kwargs))
+            instance=self.Config.model(**kwargs)
+            session.add(instance)
             session.commit()
-
-    def get_or_create(self, **kwargs):
-        instance=self.get_one_or_none(id=kwargs['id'])
-        if instance is None:
-            self.create_one(**kwargs)
-        else:
             return instance
+
+    def get_or_create(self, default, **kwargs):
+        instance = self.get_one_or_none(**kwargs)
+        if instance is None:
+            return (self.create_one(**(kwargs | default)), True)
+        else:
+            return (instance, False)
