@@ -1,5 +1,4 @@
 from sqlalchemy import select
-from sqlalchemy.exc import InvalidRequestError
 
 
 class SqlAlchemyRepository:
@@ -21,7 +20,7 @@ class SqlAlchemyRepository:
             session.commit()
 
     def get_or_create(self, **kwargs):
-        instance=self.get_one_or_none(**kwargs)
+        instance=self.get_one_or_none(id=kwargs['id'])
         if instance is None:
             self.create_one(**kwargs)
         else:
