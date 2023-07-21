@@ -15,6 +15,8 @@ psycopg-binary = "^3.1.9"
 python-dotenv = "^1.0.0"
 pydantic = "1.10.9"
 beautifulsoup4 = "^4.12.2"
+fastapi = "^0.100.0"
+uvicorn = {extras = ["standard"], version = "^0.23.1"}
 
 
 [tool.poetry.group.dev.dependencies]
