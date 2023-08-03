@@ -1,5 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy import update
+from math import ceil
 
 
 class SqlAlchemyRepository:
@@ -56,8 +57,15 @@ class SqlAlchemyRepository:
             session.commit()
             return instance
 
-    def fetch2(self, limit, page=0, **kwargs):
+    def fetch(self, limit, page=1, **kwargs):
+        if page <= 0 or limit <= 0:
+            raise ValueError
+        next_page = page + 1
+        prev_page = page - 1
+        if prev_page == 0:
+            prev_page = None
         with self.session_factory() as session:
-            stmt = select(self.Config.model).filter_by(**kwargs).offset(page * limit).limit(limit)
+            stmt = select(self.Config.model).filter_by(**kwargs).offset((page - 1) * limit).limit(limit)
             result = session.execute(stmt).scalars().all()
-            return result
+            total_pages = len(session.execute(select(self.Config.model).filter_by(**kwargs)).scalars().all()) / limit
+            return result, {"prev_page": prev_page, "next_page": next_page, "total_pages": ceil(total_pages)}
