@@ -321,6 +321,27 @@ typing-extensions = ">=4.5.0"
 all = ["email-validator (>=1.1.1)", "httpx (>=0.23.0)", "itsdangerous (>=1.1.0)", "jinja2 (>=2.11.2)", "orjson (>=3.2.1)", "python-multipart (>=0.0.5)", "pyyaml (>=5.3.1)", "ujson (>=4.0.1,!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0)", "uvicorn[standard] (>=0.12.0)"]
 
 [[package]]
+name = "fastapi-filter"
+version = "0.6.1"
+description = "FastAPI filter"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "fastapi_filter-0.6.1-py3-none-any.whl", hash = "sha256:9ac44717824caf8e12f550de74c47d205ef4f82d5ada7dabfe7c7927069c3a78"},
+    {file = "fastapi_filter-0.6.1.tar.gz", hash = "sha256:5c50d4d2ff6d580f5232ab9a620defde70d10e8c474802172fa693f891b8010f"},
+]
+
+[package.dependencies]
+fastapi = ">=0.78,<1.0"
+pydantic = ">=1.10.0,<2.0.0"
+
+[package.extras]
+all = ["SQLAlchemy (>=1.4.36,<2.1.0)", "mongoengine (>=0.24.1,<0.28.0)"]
+mongoengine = ["mongoengine (>=0.24.1,<0.28.0)"]
+sqlalchemy = ["SQLAlchemy (>=1.4.36,<2.1.0)"]
+
+[[package]]
 name = "flake8"
 version = "6.0.0"
 description = "the modular source code checker: pep8 pyflakes and co"
@@ -1369,4 +1390,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "3947a509d34be4e693d1aecf422a643ea8562869ccec56f150f5f5ae8d398e35"
+content-hash = "77d3fcfb62b4bdb62195b9f5ed58564499acb3aa637816f7616a7e0496383173"

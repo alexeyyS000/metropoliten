@@ -17,6 +17,7 @@ pydantic = "1.10.9"
 beautifulsoup4 = "^4.12.2"
 uvicorn = {extras = ["standard"], version = "^0.23.1"}
 fastapi = "0.99"
+fastapi-filter = "^0.6.1"
 
 
 [tool.poetry.group.dev.dependencies]

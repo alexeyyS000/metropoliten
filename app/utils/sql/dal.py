@@ -20,7 +20,7 @@ class SqlAlchemyRepository:
         with self.session_factory() as session:
             instance = self.Config.model(**kwargs)
             session.add(instance)
-            session.commit()  # commit закрывает сессию? так что после нег невозможно обратить ся к instance
+            session.commit()
             return instance
 
     def get_or_create(self, default, **kwargs):
@@ -37,17 +37,6 @@ class SqlAlchemyRepository:
             session.commit()
             return result.scalar_one_or_none()
 
-    # def update_one1(self, attrs: dict, **kwargs):
-    #     instance = self.get_one_or_none(**kwargs)
-    #     if instance is None:
-    #         return 0
-    #     with self.session_factory() as session:
-    #         for key, value in attrs.items():
-    #             setattr(instance, key, value)
-    #         session.add(instance)
-    #         session.commit()
-    #         return instance
-
     def delete_one(self, **kwargs):
         instance = self.get_one_or_none(**kwargs)
         if instance is None:
@@ -58,14 +47,21 @@ class SqlAlchemyRepository:
             return instance
 
     def fetch(self, limit, page=1, **kwargs):
-        if page <= 0 or limit <= 0:
-            raise ValueError
-        next_page = page + 1
-        prev_page = page - 1
-        if prev_page == 0:
-            prev_page = None
+        if page <= 0:
+            raise ValueError("erroneous value for page argument")
+        if limit <= 0:
+            raise ValueError("erroneous value for limit arguent")
         with self.session_factory() as session:
             stmt = select(self.Config.model).filter_by(**kwargs).offset((page - 1) * limit).limit(limit)
             result = session.execute(stmt).scalars().all()
-            total_pages = len(session.execute(select(self.Config.model).filter_by(**kwargs)).scalars().all()) / limit
-            return result, {"prev_page": prev_page, "next_page": next_page, "total_pages": ceil(total_pages)}
+            total_pages = ceil(session.query(self.Config.model).filter_by(**kwargs).count() / limit)
+            next_page = page + 1
+            if next_page > total_pages:
+                next_page = None
+            prev_page = page - 1
+            if prev_page < 1:
+                prev_page = None
+            return {"result": result, "prev_page": prev_page, "next_page": next_page, "total_pages": total_pages}
+
+    def get_session(self):
+        return self.session_factory
