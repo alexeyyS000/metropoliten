@@ -9,6 +9,8 @@ class PostFilter(Filter):
     image_url: Optional[str]
     publication_date: Optional[datetime.date]
     order_by: Optional[List[str]]
-
+    image_url__isnull: Optional[bool]
+    
+    
     class Constants(Filter.Constants):
         model = Post
