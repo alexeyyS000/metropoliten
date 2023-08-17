@@ -2,7 +2,9 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
+import sys
 
+sys.path.append("/Users/alex1/Desktop/project/metropoliten/app")
 from alembic import context
 from db.base import Base
 from db.models import *  # noqa: F401, F403
@@ -16,8 +18,10 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 settings = DatabaseSettings()
-print(settings.url)
+
 config.set_main_option("sqlalchemy.url", settings.url)
+if context.config.get_main_option("is_test") == "True":
+    config.set_main_option("sqlalchemy.url", settings.test_url)
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel

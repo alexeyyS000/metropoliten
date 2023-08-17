@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends, status, Query
-from .schemas import PostDetail, PostCreate, PostUpdate, PostPatch, PostPaginatedResponse
-from .filters import PostFilter
+from api.schemas import PostDetail, PostCreate, PostUpdate, PostPatch, PostPaginatedResponse
+from api.filters import PostFilter
 from typing import Annotated
 from fastapi_filter import FilterDepends
-from .dependencies import get_postdal
+from api.dependencies import get_postdal
 
 router = APIRouter(prefix="/post")
 
