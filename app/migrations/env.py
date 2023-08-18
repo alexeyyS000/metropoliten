@@ -17,11 +17,14 @@ config = context.config
 # This line sets up loggers basically.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
-settings = DatabaseSettings()
+
+if context.config.get_main_option("is_test") == "True":
+    settings = DatabaseSettings(db_name=context.config.get_main_option("test_db_name"))
+else:
+    settings = DatabaseSettings()
 
 config.set_main_option("sqlalchemy.url", settings.url)
-if context.config.get_main_option("is_test") == "True":
-    config.set_main_option("sqlalchemy.url", settings.test_url)
+
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
