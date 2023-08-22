@@ -9,6 +9,14 @@ services:
     depends_on:
       - redis
       - postgres
+  api:
+    restart: always
+    build: ./app
+    command: gunicorn api.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:80
+    env_file:
+      - .env
+    depends_on:
+      - postgres
   worker-beat:
     restart: always
     build: ./app
