@@ -2,9 +2,7 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-import sys
 
-sys.path.append("/Users/alex1/Desktop/project/metropoliten/app")
 from alembic import context
 from db.base import Base
 from db.models import *  # noqa: F401, F403
